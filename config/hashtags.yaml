@@ -1,0 +1,40 @@
+# Hashtag banks per niche. The copywriter mixes: 2 broad + 3 niche + 1-2 specific (creator / show).
+# Refresh monthly from what the analytics dashboard says works.
+niches:
+  dating_social:
+    broad: ["#podcast", "#fyp"]
+    niche: ["#dating", "#relationships", "#datingadvice", "#podcastclips", "#debate"]
+  sports_podcast:
+    broad: ["#football", "#fyp"]
+    niche: ["#nfl", "#collegefootball", "#podcastclips", "#sports"]
+  business_money:
+    broad: ["#business", "#money", "#fyp"]
+    niche: ["#entrepreneur", "#podcastclips", "#mindset", "#success", "#finance"]
+  podcast_entertainment:
+    broad: ["#podcast", "#viral", "#fyp", "#funny"]
+    niche: ["#podcastclips", "#interview", "#storytime", "#motivation", "#entrepreneur"]
+  streamers_gaming:
+    broad: ["#gaming", "#twitch", "#fyp", "#funny"]
+    niche: ["#streamer", "#twitchclips", "#gamingclips", "#streamerclips", "#kickclips"]
+  default:
+    broad: ["#viral", "#fyp"]
+    niche: ["#clips", "#shorts"]
+
+# Known creators → their tags (added automatically when the creator matches)
+creators:
+  MrBeast: ["#mrbeast"]
+  Theo Von: ["#theovon", "#thispastweekend"]
+  Steven Bartlett: ["#diaryofaceo", "#stevenbartlett"]
+  Alex Hormozi: ["#hormozi", "#alexhormozi"]
+  My First Million: ["#myfirstmillion"]
+  Codie Sanchez: ["#codiesanchez"]
+  Chris Williamson: ["#modernwisdom"]
+  Patrick Bet-David: ["#valuetainment", "#pbd"]
+  Graham Stephan: ["#grahamstephan"]
+  Michael Sartain: ["#michaelsartain"]
+  Mike Majlak: ["#mikemajlak", "#doublecoverage"]
+  Cam Newton: ["#camnewton", "#4thand1"]
+  Alex Cooper: ["#unwell", "#callherdaddy"]
+
+# Never use these (spammy, shadowban-prone, or off-brand)
+blocklist: ["#followforfollow", "#f4f", "#like4like", "#l4l", "#gambling", "#casino", "#bet"]

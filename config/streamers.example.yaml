@@ -1,0 +1,11 @@
+# Copy to streamers.yaml and fill in. One entry per streamer.
+streamers:
+  - handle: example_streamer          # twitch login name
+    platform: twitch
+    niche: valorant                   # must match an account niche in accounts.yaml
+    layout: split                     # split | fullface | blurfill  (see layouts.yaml)
+    priority: 5                       # 1-10, auto-adjusted later by analytics
+    allowed_to_clip: true             # pipeline will NOT publish if false
+    notes: "Permission: clipping campaign link / screenshot of panel saying clips allowed"
+    max_clips_per_stream: 5
+    min_score: 60                     # LLM virality score threshold

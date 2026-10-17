@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row" style="justify-content:space-between; margin-bottom:12px">
+  <div class="muted">Posts go out automatically at their time. Platforms that aren't connected yet become
+    ready-to-post folders in <code>data/export/</code>.</div>
+  <form method="post" action="/posts/publish-now"><button class="primary">Publish due now</button></form>
+</div>
+{% if not posts %}<div class="empty">No posts yet — approve a clip first.</div>{% endif %}
+<div class="card" style="padding:0 8px">
+<table>
+  <tr><th></th><th>When (UTC)</th><th>Where</th><th>Title</th><th>Status</th></tr>
+  {% for p in posts %}
+  <tr>
+    <td>{% if p.thumb %}<img src="/media/{{ p.thumb }}" width="36" style="border-radius:6px">{% endif %}</td>
+    <td class="muted">{{ p.scheduled_at[5:16].replace('T', ' ') }}</td>
+    <td>{{ p.platform }}<div class="muted">{{ p.account_id }}</div></td>
+    <td>{{ p.title[:60] }}</td>
+    <td>
+      {% if p.status == 'posted' and p.url %}<a href="{{ p.url }}" target="_blank">posted ↗</a>
+      {% elif p.status == 'failed' %}<span style="color:var(--bad)" title="{{ p.error }}">failed</span>
+      {% elif p.status == 'exported' %}<span title="{{ p.url }}">ready to post 📁</span>
+      {% else %}{{ p.status }}{% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

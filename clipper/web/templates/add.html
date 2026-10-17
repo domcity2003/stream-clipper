@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block body %}
+<form class="card" method="post" action="/add">
+  <strong>Clip a video</strong>
+  <div class="muted">Paste a link from a campaign (YouTube, Twitch, Kick…). It'll be downloaded, transcribed,
+    and the best moments cut into clips for review.</div>
+  <label>Video link</label>
+  <input type="url" name="url" required placeholder="https://www.youtube.com/watch?v=…">
+  <label>Campaign (for paid clips)</label>
+  <select name="campaign_id">
+    <option value="">— none —</option>
+    {% for c in campaigns %}<option value="{{ c.id }}">{{ c.creator }} · {{ c.marketplace }} · ${{ c.rate_per_1k_views }}/1k</option>{% endfor %}
+  </select>
+  <div class="row" style="gap:10px">
+    <div style="flex:1"><label>Only from (optional)</label><input type="text" name="start" placeholder="20:00"></div>
+    <div style="flex:1"><label>to</label><input type="text" name="end" placeholder="45:00"></div>
+  </div>
+  <div style="margin-top:14px"><button class="primary" style="width:100%">Start clipping</button></div>
+</form>
+
+<div class="card" style="padding:0 8px">
+<table>
+  <tr><th>#</th><th>Video</th><th>Status</th></tr>
+  {% for s in sources %}
+  <tr>
+    <td class="muted">{{ s.id }}</td>
+    <td>{{ (s.title or s.url)[:70] }}<div class="muted">{{ s.streamer or '' }}{% if s.campaign_id %} · 💰 {{ s.campaign_id }}{% endif %}</div></td>
+    <td>
+      {% if s.status == 'failed' %}
+        <span style="color:var(--bad)" title="{{ s.error }}">failed</span>
+        <form method="post" action="/sources/{{ s.id }}/retry" style="display:inline"><button class="pill" style="cursor:pointer">retry</button></form>
+      {% elif s.status == 'scored' %}done ✓{% else %}{{ s.status }}…{% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

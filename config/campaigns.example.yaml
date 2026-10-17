@@ -1,0 +1,25 @@
+# Copy to campaigns.yaml. One entry per paid campaign you've joined.
+# The pipeline only clips sources listed here (or streamers with allowed_to_clip: true).
+campaigns:
+  - id: example_campaign
+    marketplace: vyro                 # vyro | whop | clipping_net
+    creator: "Example Creator"
+    rate_per_1k_views: 1.00
+    budget_left: null                 # stop clipping when it runs out
+    source_urls:                      # videos you're allowed to clip for this campaign
+      - https://www.youtube.com/watch?v=XXXXXXXXXXX
+    rules:                            # copied from the campaign brief; fed to copywriter + renderer
+      required_tags: ["@creatorhandle"]
+      required_hashtags: []
+      min_seconds: 10
+      max_seconds: 60
+      platforms: [tiktok, youtube, instagram]
+      notes: "e.g. no other watermarks, must include creator name in caption"
+      # For "post the provided content" campaigns: drop their clips in data/inbox/<id>/ (auto-picked up)
+      captions: []                    # the brief's ready-made captions, rotated across clips
+      watermark:                      # if the brief requires one
+        file: config/watermarks/example.png
+        position: bottom-right        # top-left | top-right | bottom-left | bottom-right | center | top-center
+        scale: 0.28                   # width as a fraction of the video
+        opacity: 1.0
+    accounts: [yt_main, tt_main, ig_main]

@@ -1,0 +1,22 @@
+.env
+data/
+config/streamers.yaml
+config/accounts.yaml
+config/*client_secret*.json
+__pycache__/
+.venv/
+*.mp4
+config/campaigns.yaml
+.pytest_cache/
+*.pyc
+.DS_Store
+
+# migration safety
+.env
+.env.*
+*.pem
+*.key
+.venv/
+node_modules/
+__pycache__/
+.DS_Store

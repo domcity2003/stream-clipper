@@ -1,0 +1,31 @@
+# Copy to accounts.yaml. One entry per social account you post to.
+# Until accounts.yaml exists, the system uses one "manual export" account per platform:
+# approved clips land in data/export/<date>/ as video + caption.txt, ready to post from your phone.
+accounts:
+  - id: tiktok_main
+    platform: tiktok
+    handle: "@yourhandle"
+    niche: podcast_entertainment
+    daily_cap: 3
+    timezone: America/Chicago
+    slots: ["11:00", "15:00", "19:00"]
+    tiktok_mode: inbox              # inbox = lands in TikTok drafts, you tap Post. direct = after TikTok audit
+
+  - id: youtube_main
+    platform: youtube
+    handle: "@yourhandle"
+    niche: podcast_entertainment
+    daily_cap: 4                    # default API quota fits ~6 uploads/day per Google project
+    timezone: America/Chicago
+    slots: ["10:00", "13:00", "17:00", "20:00"]
+    privacy: public                 # forced to private until the Google project passes YouTube's audit
+
+  - id: instagram_main
+    platform: instagram
+    handle: "@yourhandle"
+    niche: podcast_entertainment
+    daily_cap: 3
+    timezone: America/Chicago
+    slots: ["12:00", "18:00", "21:00"]
+    ig_user_id: ""                  # from the Meta developer dashboard
+    token_env: IG_TOKEN_MAIN        # name of the .env variable holding the long-lived token

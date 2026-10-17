@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block body %}
+<style>
+  .clip { display: grid; grid-template-columns: 200px 1fr; gap: 16px; }
+  video { width: 100%; aspect-ratio: 9/16; border-radius: 12px; background: #000; object-fit: cover; }
+  .opts label.opt { display: flex; gap: 8px; align-items: flex-start; text-transform: none; letter-spacing: 0;
+                    font-size: 14px; color: var(--text); margin: 6px 0; cursor: pointer; }
+  .opts input[type=radio] { margin-top: 4px; accent-color: var(--accent); }
+  .actions { display: flex; gap: 10px; margin-top: 14px; }
+  @media (max-width: 560px) { .clip { grid-template-columns: 1fr; } video { max-height: 70vh; } }
+</style>
+{% if not clips %}
+  <div class="empty">Nothing to review yet.<br>Add a video under <a href="/add">Add video</a>, or wait for discovery to find some.</div>
+{% endif %}
+{% for c in clips %}
+<form class="card" id="clip-{{ c.id }}" onsubmit="return decide(event, {{ c.id }}, 'approve')">
+  <div class="row" style="margin-bottom:10px">
+    <span class="pill score">{{ c.score }}</span>
+    <span class="pill">{{ c.moment_type }}</span>
+    <span class="pill">{{ '%.0f'|format(c.duration or 0) }}s</span>
+    <span class="pill">{{ c.layout }}</span>
+    {% if c.campaign_id %}<span class="pill">💰 {{ c.campaign_id }}</span>{% endif %}
+  </div>
+  <div class="clip">
+    <video src="/media/{{ c.file }}" {% if c.thumb %}poster="/media/{{ c.thumb }}"{% endif %} controls playsinline preload="none"></video>
+    <div>
+      <div class="muted">{{ c.streamer or '' }} · {{ (c.source_title or '')[:70] }}</div>
+      <div class="muted" style="margin-top:4px">Why: {{ c.reason }} <em>({{ c.scorer }})</em></div>
+      <label>Title — pick one (tap to edit)</label>
+      <div class="opts">
+        {% for t in c.titles %}
+        <label class="opt"><input type="radio" name="chosen_title" value="{{ loop.index0 }}" {{ 'checked' if loop.index0 == (c.chosen_title or 0) }}
+          onchange="this.form.title.value = this.dataset.t" data-t="{{ t }}"> <span>{{ t }}</span></label>
+        {% endfor %}
+      </div>
+      <input type="text" name="title" value="{{ c.titles[c.chosen_title or 0] if c.titles else '' }}">
+      <label>Caption</label>
+      <textarea name="description">{{ c.description }}</textarea>
+      <label>Hashtags</label>
+      <input type="text" name="hashtags" value="{{ c.hashtags | join(' ') }}">
+      <div class="muted" style="margin-top:8px">On-screen hook: “{{ c.hook_text }}”</div>
+      <div class="actions">
+        <button type="button" class="reject" onclick="decide(event, {{ c.id }}, 'reject')">Reject</button>
+        <button type="submit" class="approve">Approve &amp; schedule</button>
+      </div>
+    </div>
+  </div>
+</form>
+{% endfor %}
+<script>
+async function decide(ev, id, action) {
+  ev.preventDefault();
+  const form = document.getElementById('clip-' + id);
+  const res = await fetch(`/clips/${id}/${action}`, { method: 'POST', body: action === 'approve' ? new FormData(form) : null });
+  if (res.ok) { form.style.transition = 'opacity .25s'; form.style.opacity = 0; setTimeout(() => form.remove(), 250); }
+  else alert('Something went wrong: ' + res.status);
+  return false;
+}
+</script>
+{% endblock %}

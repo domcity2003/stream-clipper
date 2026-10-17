@@ -1,0 +1,31 @@
+[project]
+name = "stream-clipper"
+version = "0.1.0"
+description = "Automated streamer clipping + multi-platform posting pipeline"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "yt-dlp",
+    "faster-whisper",
+    "litellm",
+    "pydantic>=2",
+    "python-dotenv",
+    "pyyaml",
+    "httpx",
+    "onnxruntime==1.21.1",  # newer builds need macOS 13.4+
+    "pillow>=12.3.0",
+    "numpy>=2.5.3",
+    "fastapi>=0.141.1",
+    "uvicorn[standard]>=0.53.0",
+    "jinja2>=3.1.6",
+    "python-multipart>=0.0.32",
+    "apscheduler>=3.11.3",
+    "google-api-python-client>=2.200.0",
+    "google-auth-oauthlib>=1.4.1",
+    "mediapipe==0.10.14",
+    "opencv-contrib-python<5",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

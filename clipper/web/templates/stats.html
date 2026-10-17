@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% macro table(title, rows) %}
+<div class="card" style="padding:12px 8px">
+  <strong style="padding:0 6px">{{ title }}</strong>
+  <table>
+    <tr><th></th><th class="num">Posts</th><th class="num">Views</th><th class="num">Avg</th></tr>
+    {% for r in rows %}<tr><td>{{ r.key }}</td><td class="num">{{ r.posts }}</td>
+      <td class="num">{{ '{:,}'.format(r.views) }}</td><td class="num"><strong>{{ '{:,}'.format(r.avg) }}</strong></td></tr>{% endfor %}
+    {% if not rows %}<tr><td colspan="4" class="muted">No data yet</td></tr>{% endif %}
+  </table>
+</div>
+{% endmacro %}
+{% block body %}
+<div class="row" style="margin-bottom:16px">
+  <div class="card" style="flex:1; margin:0"><div class="muted">Posts live</div><div style="font-size:28px; font-weight:800">{{ s.total_posts }}</div></div>
+  <div class="card" style="flex:1; margin:0"><div class="muted">Total views</div><div style="font-size:28px; font-weight:800">{{ '{:,}'.format(s.total_views) }}</div></div>
+  <div class="card" style="flex:1; margin:0"><div class="muted">Est. earnings @ $1/1k</div><div style="font-size:28px; font-weight:800">${{ '{:,.0f}'.format(s.total_views / 1000) }}</div></div>
+</div>
+{{ table("By creator", s.by_creator) }}
+{{ table("By moment type", s.by_moment_type) }}
+{{ table("By title style", s.by_title_style) }}
+{{ table("By platform", s.by_platform) }}
+{{ table("By posting hour (UTC)", s.by_hour) }}
+<div class="card">
+  <strong>Pipeline</strong>
+  <div class="muted" style="margin-top:6px">
+    Videos: {% for r in pipeline.sources %}{{ r.status }} {{ r.n }}{{ ', ' if not loop.last }}{% endfor %}<br>
+    Moments: {% for r in pipeline.moments %}{{ r.status }} {{ r.n }}{{ ', ' if not loop.last }}{% endfor %}<br>
+    Posts: {% for r in pipeline.posts %}{{ r.status }} {{ r.n }}{{ ', ' if not loop.last }}{% endfor %}
+  </div>
+</div>
+{% endblock %}
